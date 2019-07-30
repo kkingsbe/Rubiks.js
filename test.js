@@ -11,6 +11,9 @@ function init() {
 
 	scene = new THREE.Scene();
 
+  geometry = new THREE.BoxGeometry( 1, 1, 1 );
+  material = new THREE.MeshNormalMaterial();
+
   cube = [];
   for(var x = 0; x < 3; x ++)
   {
@@ -23,12 +26,11 @@ function init() {
 
         cube[x][y][z] = new THREE.Mesh( geometry, material );
         scene.add(cube[x][y][z]);
-        cube[x][y][z].position.set(x, y, z)
+        cube[x][y][z].position.set(x, y, z);
       }
     }
   }
-	geometry = new THREE.BoxGeometry( 1, 1, 1 );
-	material = new THREE.MeshNormalMaterial();
+
 
   //mesh = new THREE.Mesh( geometry, material );
 	//scene.add( mesh );
@@ -36,6 +38,8 @@ function init() {
 	renderer = new THREE.WebGLRenderer( { antialias: true } );
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	document.body.appendChild( renderer.domElement );
+
+  controls = new THREE.OrbitControls (camera, renderer.domElement);
 }
 
 function animate() {
@@ -51,8 +55,11 @@ function animate() {
 
 document.onkeydown = function (e) {
     e = e || window.event;
-    if(e.key == "a") mesh.rotation.y += 0.1;
-    if(e.key == "d") mesh.rotation.y -= 0.1;
-    if(e.key == "w") mesh.rotation.x += 0.2;
-    if(e.key == "s") mesh.rotation.x -= 0.2;
+    console.log(e);
+    if(e.key == "w") camera.translateZ(-0.2);
+    if(e.key == "s") camera.translateZ(0.2);
+    if(e.key == "a") camera.translateX(-0.2);
+    if(e.key == "d") camera.translateX(0.2);
+    if(e.key == "Shift") camera.translateY(0.2);
+    if(e.key == "Control") camera.translateY(-0.2);
 };
